@@ -1,5 +1,11 @@
-public class test{
+public class test {
     public static void main(String[] args) {
-        System.out.println("test");
+        String str = "Hello World";
+        String anotherString = "hello world";
+        Object object = str;
+
+        System.out.println(str.compareTo(anotherString));
+        System.out.println(str.compareToIgnoreCase(anotherString));
+        System.out.println(str.compareTo(object.toString()));
     }
 }
