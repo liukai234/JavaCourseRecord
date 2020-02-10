@@ -14,7 +14,7 @@ public class D {
                 }
                 if (include(i) && include(j) && include(k)) {
                     if (i == j || i == k || j == k) {
-                        sum1++;
+                        continue;
                     } else {
                         sum++;
                     }
@@ -23,7 +23,7 @@ public class D {
         }
         System.out.println("sum = " + sum);
         System.out.println("sum1 = " + sum1);
-        System.out.println("sum + sum1 / 3 = " + ((sum + sum1) / 6));
+        System.out.println("(sum + sum1) / 6 = " + ((sum + sum1) / 6));
         /* for(i = 0 ; i < 100; i++) {
             if(include(i)) {
                 System.out.println(i);
