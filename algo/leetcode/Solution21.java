@@ -15,27 +15,32 @@
 public class Solution21 {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode c = new ListNode();
-        while(l1.next != null && l2.next != null) {
+        ListNode head = c;
+
+        while(l1 != null && l2 != null) {
             if(l1.val >= l2.val) {
+                c.next = null;
                 c.val = l2.val;
-                c.next = l2.next;
                 l2 = l2.next;
             } else {
                 c.val = l1.val;
                 c.next = l1.next;
+                c = c.next;
                 l1 = l1.next;
             }
         }
-        while(l1.next != null) {
+        while(l1 != null) {
             c.val = l1.val;
             c.next = l1.next;
+            c = c.next;
             l1 = l1.next;
         }
-        while(l2.next != null) {
+        while(l2 != null) {
             c.val = l2.val;
             c.next = l2.next;
+            c = c.next;
             l2 = l2.next;
         }
-        return c;
+        return head;
     }
 }

@@ -7,29 +7,31 @@ public class test {
         Solution21 solution = new Solution21();
         ListNode a = creatListA();
         ListNode b = creatListB();
-        ListNode c = solution.mergeTwoLists(a, b);
-        System.out.println(a.val);
-        a = a.next;
-        while (a != null) {
-            System.out.print("->");
-            a = a.next;
-            System.out.print(a.val);
+        ListNode head = solution.mergeTwoLists(a, b);
+        System.out.println("return head");
+
+        while (head != null) {
+            System.out.print(head.val);
+            if(head.next != null) {
+                System.out.print("->");
+            }
+            head = head.next;
         }
         System.out.println();
         input.close();
     }
 
     static ListNode creatListA() {
-        ListNode a = new ListNode(1);
+        ListNode a = new ListNode(4);
         ListNode b = new ListNode(2, a);
-        ListNode c = new ListNode(4, b);
-        return a;
+        ListNode c = new ListNode(1, b);
+        return c;
     }
 
     static ListNode creatListB() {
-        ListNode a = new ListNode(1);
+        ListNode a = new ListNode(4);
         ListNode b = new ListNode(3, a);
-        ListNode c = new ListNode(4, b);
-        return a;
+        ListNode c = new ListNode(1, b);
+        return c;
     }
 }
