@@ -5,7 +5,7 @@ public class test {
         Scanner input = new Scanner(System.in);
 
         Solution26 solution = new Solution26();
-        int[] nums = {1};
+        int[] nums = {1, 1, 2};
         int len = solution.removeDuplicates(nums);
 
         System.out.println("len: " + len);
