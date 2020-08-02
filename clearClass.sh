@@ -1,0 +1,1 @@
+find . -name '*.class' -type f -print -exec rm -rf {} \;
