@@ -1,4 +1,4 @@
-public class ListNode {
+/* public class ListNode {
     int val;
     ListNode next;
 
@@ -13,4 +13,20 @@ public class ListNode {
         this.val = val;
         this.next = next;
     }
+} */
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+
+
+public class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
 }
