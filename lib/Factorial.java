@@ -7,6 +7,13 @@ public class Factorial {
         int a = input.nextInt();
         char[] charA = String.valueOf(a).toCharArray();
 
+        System.out.println("a->charA");
+        for(int i = 0; i < charA.length; i++) {
+            System.out.print(charA[i]);
+        }
+        System.out.println();
+        System.out.println("a->charA");
+
         input.close();
         InnerBigInteger bigInteger = null;
         int[] result = null;

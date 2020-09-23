@@ -1,4 +1,4 @@
-public class InnerBigInteger {
+class InnerBigInteger {
     private char[] a;
     private char[] b;
     private int[] result;
