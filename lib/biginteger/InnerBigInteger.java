@@ -1,3 +1,4 @@
+package biginteger;
 // 大数相乘
 class InnerBigInteger {
     private char[] a;

@@ -1,3 +1,4 @@
+package school;
 public class Student {
     protected String name;
     protected int ID;

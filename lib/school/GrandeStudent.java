@@ -1,3 +1,4 @@
+package school;
 
 
 /**
@@ -5,7 +6,7 @@
  */
 public class GrandeStudent extends Student {
     private String article;
-    private Teacher tutor;
+    // private Teacher tutor;
     public GrandeStudent(String name, int ID, Teacher tutor,String article) {
         super(name, ID, tutor);
         this.article = article;

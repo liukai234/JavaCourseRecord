@@ -1,3 +1,4 @@
+package school;
 public class School{
     public static void main(String[] args) {
         Teacher t = new Teacher("zhaoliu", 20030826);
