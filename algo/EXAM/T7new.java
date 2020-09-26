@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main{
+public class T7new{
 	static String word; 
 	static boolean[] res = new boolean[4];
 	
