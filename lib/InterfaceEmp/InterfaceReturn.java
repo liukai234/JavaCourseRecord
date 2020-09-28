@@ -17,7 +17,7 @@ class PC implements ShowMessage {
 
 public class InterfaceReturn {
     public static void main(String[] args) {
-        
+        // 多态、接口回调
         ShowMessage showmessage = new TV();
         showmessage.print("tv");
         showmessage = new PC();

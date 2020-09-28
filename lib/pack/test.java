@@ -1,5 +1,4 @@
-import pack.circle.InnerCircle;
-
+import pack.circle.*;
 public class test {
     public static void main(String[] args) {
         InnerCircle.staticDraw staticCircle = new InnerCircle.staticDraw();
