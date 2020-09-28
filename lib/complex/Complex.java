@@ -1,4 +1,3 @@
-package complex;
 import java.util.Scanner;
 
 /**

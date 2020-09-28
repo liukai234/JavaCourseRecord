@@ -1,4 +1,4 @@
-package pack.circle; //包名用小写
+package circle; //包名用小写
 
 /**
  * Circle

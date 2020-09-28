@@ -1,4 +1,3 @@
-package biginteger;
 public class ForExpress {
     public static void main(String[] args) {
         // for(express 1; express 2; express 3)

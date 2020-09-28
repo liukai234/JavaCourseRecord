@@ -1,6 +1,4 @@
-package biginteger;
 // 旋转矩阵
-
 import java.util.*;
 
 public class T7 {

@@ -1,4 +1,3 @@
-package biginteger;
 public class fib {
     public static void main(String[] args) {
         System.out.print("1\n1\n");
