@@ -29,6 +29,7 @@ public class InnerCircle {
     public class Draw {
         public void drawShape() {
             // Cannot make a static reference to the non-static field radius
+            System.out.println("Draw drawShape");
             System.out.println(radius);
             System.out.println(count);
         }
