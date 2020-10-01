@@ -6,13 +6,12 @@ import java.io.*;
 public class Example10_1 {
 
     public static void main(String[] args) throws IOException {
-        
-        File f = new File("/home/lk234/javaCourseRecord/lib/file", "Example10_1.java");
-        System.out.println(f.getName() + " f.canRead() " + f.canRead());
-        System.out.println(f.getName() + " f.length() " + f.length());
-        System.out.println(f.getName() + " f.getAbsolutePath() " + f.getAbsolutePath());
 
-        FileExp file = new FileExp("new.txt");
+        FileExp file = new FileExp("test.txt"); // 当前目录
+//        file.createNewFile();
+//        System.out.println(file.getName() + " f.canRead() " + f.canRead());
+//        System.out.println(file.getName() + " f.length() " + f.length());
+        System.out.println(file.getName() + " f.getAbsolutePath() " + file.getAbsolutePath());
 
         try{
             file.createNewFile();
@@ -24,38 +23,26 @@ public class Example10_1 {
 }
 
 class FileException extends IOException {
-
     private static final long serialVersionUID = 1L;
-    public void createNewFile() throws java.io.IOException {
-        throw new FileException();
-    }
-    public FileException() {
-
-    }
-    public String getMessage() {
-        return "FileException";
+    public FileException(String message) {
+        super(message);
     }
 }
 
 class FileExp extends File {
-
-    public FileExp(File parent, String child) {
-        super(parent, child);
-        // 父类实现
-    }
-
-    public FileExp(String parent) {
-        super(parent);
-    }
-
-    public boolean createNewFile() throws java.io.IOException {
-        
-        throw new FileException();
-    }
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
-    
+    // public FileExp(File parent, String child) {
+    //     super(parent, child);
+    // }
+
+    // @Override // Override语法糖重载不是应用于构造器
+    public FileExp(String pathname) {
+        super(pathname);
+    }
+
+    @Override
+    public boolean createNewFile() throws IOException { // 不用声明抛出异常的子异常
+        if(super.exists()) throw new FileException("File is existed");
+        return super.createNewFile();
+    }
 }
