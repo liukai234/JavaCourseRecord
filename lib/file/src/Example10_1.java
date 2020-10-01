@@ -1,12 +1,10 @@
 import java.io.*;
 
 /**
- * Example10_1
+ * src.Example10_1
  */
 public class Example10_1 {
-
     public static void main(String[] args) throws IOException {
-
         FileExp file = new FileExp("test.txt"); // 当前目录
 //        file.createNewFile();
 //        System.out.println(file.getName() + " f.canRead() " + f.canRead());
@@ -15,10 +13,10 @@ public class Example10_1 {
 
         try{
             file.createNewFile();
+            System.out.println("文件创建正常");
         } catch(FileException e) {
             System.out.println(e.getMessage());
         }
-
     }
 }
 
@@ -31,7 +29,7 @@ class FileException extends IOException {
 
 class FileExp extends File {
     private static final long serialVersionUID = 1L;
-    // public FileExp(File parent, String child) {
+    // public src.FileExp(File parent, String child) {
     //     super(parent, child);
     // }
 

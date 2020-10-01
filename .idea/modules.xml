@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/JavaCourseRecord.iml" filepath="$PROJECT_DIR$/JavaCourseRecord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/algo/algo.iml" filepath="$PROJECT_DIR$/algo/algo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/file/file.iml" filepath="$PROJECT_DIR$/lib/file/file.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/lib.iml" filepath="$PROJECT_DIR$/lib/lib.iml" />
+    </modules>
+  </component>
+</project>
