@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Complex
+ * src.Complex
  */
 public class Complex {
     public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Complex {
         input.close();
 
         InnerComplex complex1 = new InnerComplex(1.0, 2.0);
-        InnerComplex complex2 = new InnerComplex(1.0, 2.0);
+        InnerComplex complex2 = new InnerComplex(0, 0);
 
         InnerComplex complex3 = complex1.add(complex2);
         complex1.print(); System.out.print(" + "); complex2.print(); System.out.print(" = "); complex3.print(); System.out.println();
@@ -22,17 +22,20 @@ public class Complex {
         complex3 = complex1.mul(complex2);
         complex1.print(); System.out.print(" * "); complex2.print(); System.out.print(" = "); complex3.print(); System.out.println();
 
-        complex3 = complex1.div(complex2);
-        complex1.print(); System.out.print(" / "); complex2.print(); System.out.print(" = "); complex3.print(); System.out.println();
-
+        try{
+            complex3 = complex1.div(complex2);
+            complex1.print(); System.out.print(" / "); complex2.print(); System.out.print(" = "); complex3.print(); System.out.println();
+        } catch(DivException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 
 
 /**
- * Complex
+ * src.Complex
  */
-class InnerComplex {
+class InnerComplex  {
     private double re = 0;
     private double im = 0;
 
@@ -71,18 +74,21 @@ class InnerComplex {
         return this;
     }
     public InnerComplex mul(InnerComplex z) {
+        InnerComplex zNew = new InnerComplex();
         double a = re, b = im, c = z.re, d = z.im;
         // (a+bi)(c+di)=(ac-bd)+(bc+ad)i
-        re = a * c - b * d;
-        im = b * c + a * d;
-        return this;
+        zNew.re = a * c - b * d;
+        zNew.im = b * c + a * d;
+        return zNew;
     }
 
-    public InnerComplex div(InnerComplex z) {
+    public InnerComplex div(InnerComplex z) throws DivException {
+        InnerComplex zNew = new InnerComplex();
         double a = re, b = im, c = z.re, d = z.im;
         // (a+bi)(c+di)=(ac-bd)+(bc+ad)i
-        re = (a * c + b * d) / (c * c + d * d);
-        im = (b * c - a * d) / (c * c + d * d);
+        if((c * c + d * d) == 0) throw new DivException("Divisor cannot be 0");
+        zNew.re = (a * c + b * d) / (c * c + d * d);
+        zNew.im = (b * c - a * d) / (c * c + d * d);
         return this;
     }
 
@@ -92,3 +98,8 @@ class InnerComplex {
 
 }
 
+class DivException extends Exception {
+    public DivException(String message) {
+        super(message);
+    }
+}
