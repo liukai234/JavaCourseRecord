@@ -12,7 +12,8 @@ public class Example10_1 {
         System.out.println(file.getName() + " f.getAbsolutePath() " + file.getAbsolutePath());
 
         try{
-            file.createNewFile();
+            boolean isExisted = file.createNewFile();
+            if(!isExisted) System.out.println("boolean: 文件存在"); // 重载抛出的异常使isExisted没有更新
             System.out.println("文件创建正常");
         } catch(FileException e) {
             System.out.println(e.getMessage());

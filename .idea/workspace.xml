@@ -19,17 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb14954e-48c6-4401-a309-e5e9c1c84254" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/file/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/file/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/file/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/file/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/file/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/file/Example10_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/file/src/Example10_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/file/New.java" beforeDir="false" afterPath="$PROJECT_DIR$/lib/file/src/New.java" afterDir="false" />
+    <list default="true" id="eb14954e-48c6-4401-a309-e5e9c1c84254" name="Default Changelist" comment="Restruct Project In IDEA">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +38,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/file" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -61,6 +52,14 @@
       <option name="presentableId" value="Default" />
       <updated>1601557920021</updated>
     </task>
+    <task id="LOCAL-00001" summary="Restruct Project In IDEA">
+      <created>1601561110256</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1601561110256</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -75,6 +74,10 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Restruct Project In IDEA" />
+    <option name="LAST_COMMIT_MESSAGE" value="Restruct Project In IDEA" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="224" y="30" width="1089" height="834" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1601560692193">
       <screen x="0" y="30" width="1536" height="834" />
@@ -84,10 +87,10 @@
       <screen x="0" y="30" width="1536" height="834" />
     </state>
     <state x="531" y="254" key="#com.intellij.ide.util.TreeClassChooserDialog/0.30.1536.834@0.30.1536.834" timestamp="1601558077771" />
-    <state x="582" y="207" key="FileChooserDialogImpl" timestamp="1601560823404">
+    <state x="582" y="207" key="FileChooserDialogImpl" timestamp="1601561241041">
       <screen x="0" y="30" width="1536" height="834" />
     </state>
-    <state x="582" y="207" key="FileChooserDialogImpl/0.30.1536.834@0.30.1536.834" timestamp="1601560823404" />
+    <state x="582" y="207" key="FileChooserDialogImpl/0.30.1536.834@0.30.1536.834" timestamp="1601561241041" />
     <state x="159" y="150" key="NewModule_or_Project.wizard" timestamp="1601560855851">
       <screen x="0" y="30" width="1536" height="834" />
     </state>
@@ -96,6 +99,10 @@
       <screen x="0" y="30" width="1536" height="834" />
     </state>
     <state x="0" y="30" key="SettingsEditor/0.30.1536.834@0.30.1536.834" timestamp="1601560864589" />
+    <state x="383" y="185" key="Vcs.Push.Dialog.v2" timestamp="1601561123245">
+      <screen x="0" y="30" width="1536" height="834" />
+    </state>
+    <state x="383" y="185" key="Vcs.Push.Dialog.v2/0.30.1536.834@0.30.1536.834" timestamp="1601561123245" />
     <state x="210" y="61" key="new project wizard" timestamp="1601559630907">
       <screen x="0" y="30" width="1536" height="834" />
     </state>
