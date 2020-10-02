@@ -3,167 +3,359 @@ import java.util.LinkedList;
 
 public class School{
     public static void main(String[] args) {
-        Class class1 = new Class(1);
-        class1.addTeacher("class1's Teacher1");
-        class1.addTeacher("class1's Teacher2");
-        class1.printAllTeacher();
-//        Teacher t = class1.getTeacher("class1's Teacher1");
-//        t.printInfo();
-        class1.removeTeacher("class1's Teacher1");
-        class1.printAllTeacher();
-        class1.removeTeacher("class1's Teacher1");
-        class1.changeTeacher("class1's Teacher2", "class1's Teacher3");
-        class1.printAllTeacher();
 
-//        Teacher t = new Teacher("zhaoliu", 20030826);
-//        Student s1 = new Student("zhangsan", 1707000101, t);
-//        s1.printInfo();
-//        Student s2 = new Student("lisi", 1707000102, t);
-//        s2.printInfo();
-//        Student s3 = new Student("wangwu", 1707000103, t);
-//        s3.printInfo();
-//
-//        GrandeStudent gs = new GrandeStudent("gs", 1907000104, t, "article");
-//        System.out.println();
-//        System.out.println("Name: " + gs.getName() + " ID:" + gs.getID());
-//        gs.printArticle();
-//        System.out.println();
-//
-//        s3.printInfo();
-        
+        PrintMemOperationInfo printMemOperationInfo = new PrintMemOperationInfo(); // 打印班级内所有指定类型成员
+        PrintMemInfo printInfo = new PrintMemInfo(); // 打印某指定成员所有信息
+
+        Class class1 = new Class(1);
+        class1.teacherOperation.addMember("class1's Teacher1");
+        class1.teacherOperation.addMember("class1's Teacher2");
+        printMemOperationInfo.printMenOperationInfo(class1.teacherOperation);
+
+        class1.teacherOperation.removeMember("class1's Teacher2");
+        printMemOperationInfo.printMenOperationInfo(class1.teacherOperation);
+
+        class1.studentOperation.addMember("class1's Student1");
+        printMemOperationInfo.printMenOperationInfo(class1.studentOperation);
+
+        class1.grandeStudentsOperation.addMember("class1's GrandStudent1");
+
+        class1.grandeStudentsOperation.getMember("class1's GrandStudent1").setThesis("论文");
+        System.out.println(class1.grandeStudentsOperation.getMember("class1's GrandStudent1").getThesis());
     }
 }
 
 class Class {
     private int num; // 班级号
-    LinkedList<Teacher> teachers = new LinkedList<>();
     public Class(int num) {
         this.num = num;
     }
-    public void addStudent() {
 
+    private LinkedList<Teacher> teachers = new LinkedList<>();
+    LinkedList<Student> students = new LinkedList<>();
+    LinkedList<Course> courses = new LinkedList<>();
+    LinkedList<GrandeStudent> grandeStudents = new LinkedList<>();
+
+    public TeacherOperation teacherOperation = new TeacherOperation(teachers);
+    public StudentOperation studentOperation = new StudentOperation(students);
+    public CourseOperation courseOperation = new CourseOperation(courses);
+    public GrandeStudentOperation grandeStudentsOperation = new GrandeStudentOperation(grandeStudents);
+
+    public class TeacherOperation implements MemberOperation {
+        private LinkedList<Teacher> teachers;
+        public TeacherOperation(LinkedList<Teacher> teachers) {
+            this.teachers = teachers;
+        }
+
+        @Override
+        public void addMember(String name) {
+            Teacher teacher = new Teacher(name);
+            teachers.add(teacher);
+        }
+
+        @Override
+        public void removeMember(String name) {
+            Teacher teacher = new Teacher(name);
+            Iterator<Teacher> iter = teachers.iterator();
+            while(iter.hasNext()) {
+                if(iter.next().getName().equals(name)){
+                    iter.remove();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void updateMember(String originName, String newName) {
+            Iterator<Teacher> iter = teachers.iterator();
+            while(iter.hasNext()) {
+                Teacher temp = iter.next(); // iter每次访问.next()时会指向下一个结点
+                if(temp.getName().equals(originName)){
+                    temp.setName(newName);
+                }
+            }
+        }
+
+        @Override
+        public Teacher getMember(String name){
+            Teacher teacher = new Teacher(name);
+            Iterator<Teacher> iter = teachers.iterator();
+            while(iter.hasNext()) {
+                Teacher temp = iter.next();
+                if(temp.getName().equals(name)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void printAllMember() {
+            Iterator<Teacher> iter = teachers.iterator();
+            while(iter.hasNext()) {
+                System.out.println(iter.next().getName());
+            }
+            System.out.println("共有数据" + teachers.size() + "条");
+        }
     }
+    public class StudentOperation implements MemberOperation {
+        private LinkedList<Student> students;
+        public StudentOperation(LinkedList<Student> students) {
+            this.students = students;
+        }
 
-    // 增
-    public void addTeacher(String name) {
-        Teacher teacher = new Teacher(name);
-        teachers.add(teacher);
+        @Override
+        public void addMember(String name) {
+            Student student = new Student(name);
+            students.add(student);
+        }
+
+        @Override
+        public void removeMember(String name) {
+            Student teacher = new Student(name);
+            Iterator<Student> iter = students.iterator();
+            while(iter.hasNext()) {
+                if(iter.next().getName().equals(name)){
+                    iter.remove();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void updateMember(String originName, String newName) {
+            Iterator<Student> iter = students.iterator();
+            while(iter.hasNext()) {
+                Student temp = iter.next(); // iter每次访问.next()时会指向下一个结点
+                if(temp.getName().equals(originName)){
+                    temp.setName(newName);
+                }
+            }
+        }
+
+        @Override
+        public Student getMember(String name){
+            Student student = new Student(name);
+            Iterator<Student> iter = students.iterator();
+            while(iter.hasNext()) {
+                Student temp = iter.next();
+                if(temp.getName().equals(name)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void printAllMember() {
+            Iterator<Student> iter = students.iterator();
+            while(iter.hasNext()) {
+                System.out.println(iter.next().getName());
+            }
+            System.out.println("共有数据" + teachers.size() + "条");
+        }
     }
+    public class CourseOperation implements MemberOperation {
+        private LinkedList<Course> courses;
+        public CourseOperation(LinkedList<Course> courses) {
+            this.courses = courses;
+        }
 
-    // 删
-    public void removeTeacher(String name) {
-        // 新建的对象一定与原对象不同
-        Teacher teacher = new Teacher(name);
-//        if(teachers.contains(teacher)) {
-//            teachers.remove(teacher);
-//        } else {
-//            System.out.println(name + "不存在");
-//        }
-        Iterator<Teacher> iter = teachers.iterator();
-        while(iter.hasNext()) {
-            if(iter.next().getTeacherName().equals(name)){
-                iter.remove();
+        @Override
+        public void addMember(String name) {
+            Course course = new Course(name);
+            courses.add(course);
+        }
+
+        @Override
+        public void removeMember(String name) {
+            Course course = new Course(name);
+            Iterator<Course> iter = courses.iterator();
+            while(iter.hasNext()) {
+                if(iter.next().getName().equals(name)){
+                    iter.remove();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void updateMember(String originName, String newName) {
+            Iterator<Course> iter = courses.iterator();
+            while(iter.hasNext()) {
+                Course temp = iter.next(); // iter每次访问.next()时会指向下一个结点
+                if(temp.getName().equals(originName)){
+                    temp.setName(newName);
+                }
+            }
+        }
+
+        @Override
+        public Course getMember(String name){
+            Course course = new Course(name);
+            Iterator<Course> iter = courses.iterator();
+            while(iter.hasNext()) {
+                Course temp = iter.next();
+                if(temp.getName().equals(name)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        public void printAllMember() {
+            Iterator<Course> iter = courses.iterator();
+            while(iter.hasNext()) {
+                System.out.println(iter.next().getName());
+            }
+            System.out.println("共有数据" + teachers.size() + "条");
+        }
+    }
+    public class GrandeStudentOperation implements MemberOperation {
+        private LinkedList<GrandeStudent> grandeStudents;
+        public GrandeStudentOperation(LinkedList<GrandeStudent> grandeStudents) {
+            this.grandeStudents = grandeStudents;
+        }
+
+        @Override
+        public void addMember(String name) {
+            GrandeStudent grandeStudent = new GrandeStudent(name);
+            grandeStudents.add(grandeStudent);
+        }
+
+        @Override
+        public void removeMember(String name) {
+            GrandeStudent grandeStudent = new GrandeStudent(name);
+            Iterator<GrandeStudent> iter = grandeStudents.iterator();
+            while(iter.hasNext()) {
+                if(iter.next().getName().equals(name)){
+                    iter.remove();
+                    return;
+                }
+            }
+        }
+
+        @Override
+        public void updateMember(String originName, String newName) {
+            Iterator<GrandeStudent> iter = grandeStudents.iterator();
+            while(iter.hasNext()) {
+                GrandeStudent temp = iter.next(); // iter每次访问.next()时会指向下一个结点
+                if(temp.getName().equals(originName)){
+                    temp.setName(newName);
+                }
+            }
+        }
+
+        @Override
+        public GrandeStudent getMember(String name){
+            GrandeStudent grandeStudent = new GrandeStudent(name);
+            Iterator<GrandeStudent> iter = grandeStudents.iterator();
+            while(iter.hasNext()) {
+                GrandeStudent temp = iter.next();
+                if(temp.getName().equals(name)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        public void setThesis(String name, String thesis){
+            GrandeStudent grandeStudent = getMember(name);
+            if(grandeStudents == null) {
+                System.out.println("setThesis ERROR");
                 return;
             }
+            grandeStudent.setThesis(thesis);
         }
-    }
-
-    // 改
-    public void changeTeacher(String originName, String newName) {
-        Iterator<Teacher> iter = teachers.iterator();
-        while(iter.hasNext()) {
-            Teacher temp = iter.next(); // iter每次访问.next()时会指向下一个结点
-            if(temp.getTeacherName().equals(originName)){
-                temp.setTeacherName(newName);
+        public String getThesis(String name){
+            GrandeStudent grandeStudent = getMember(name);
+            if(grandeStudents == null) {
+                System.out.println("getThesis ERROR");
             }
+            return grandeStudent.getThesis();
         }
 
-    }
-
-    // 查
-    public Teacher getTeacher(String name) {
-        Teacher teacher = new Teacher(name);
-        Iterator<Teacher> iter = teachers.iterator();
-        while(iter.hasNext()) {
-            if(iter.next().getTeacherName().equals(name)){
-                return iter.next();
+        @Override
+        public void printAllMember() {
+            Iterator<GrandeStudent> iter = grandeStudents.iterator();
+            while(iter.hasNext()) {
+                System.out.println(iter.next().getName());
             }
+            System.out.println("共有数据" + teachers.size() + "条");
         }
-        return null;
     }
-
-
-    public void printAllTeacher() {
-        Iterator<Teacher> iter = teachers.iterator();
-        System.out.println("printAllTeachers:");
-        while(iter.hasNext()) {
-            System.out.println(iter.next().getTeacherName());
-        }
-        System.out.println(this.num + "班共有老师" + teachers.size() + "名");
-    }
-
-    public void addCourse() {
-
-    }
-
-
 }
 
-class Teacher {
+interface Member {
+    public abstract void setName(String name);
+    public abstract String getName();
+    public abstract void printInfo();
+}
+
+class Teacher implements Member{
     private String name;
     public Teacher(String name){
         this.name = name;
     }
-    public void setTeacherName(String name) { this.name = name; }
-    public String getTeacherName(){
+    @Override public void setName(String name) { this.name = name; }
+    @Override public String getName(){
         return name;
     }
-    public void printInfo() { System.out.println("Teacher Name: " + name + "; "); }
+    @Override public void printInfo() { System.out.println("Teacher Name: " + name); }
 }
 
-class Student {
-    protected String name;
-    protected int ID;
-    Teacher tutor;
-    public Student(String name, int ID, Teacher tutor){
+class Student implements Member{
+    private String name;
+    protected int isGraduation = 0;
+    protected boolean canGraduation;
+    public Student(String name) { this.name = name; }
+    @Override public void setName(String name) { this.name = name; }
+    @Override public String getName(){
+        return name;
+    }
+    @Override public void printInfo() { System.out.print("Student Name: " + name); }
+
+    public void setIsGraduation(int isGraduation) { this.isGraduation = isGraduation; }
+    public int getIsGraduation() { return isGraduation; }
+    public void setCanGraduation(boolean canGraduation) { this.canGraduation = canGraduation; }
+    public boolean getCanGraduation() { return canGraduation; }
+}
+
+class Course implements Member{
+    private String name;
+    public Course(String name){
         this.name = name;
-        this.ID = ID;
-        this.tutor = tutor;
     }
-
-    public void printInfo() {
-        System.out.print("Student Name: " + name + "; ID: " + ID + ".   ");
-        tutor.printInfo();
-        System.out.println();
+    @Override public void setName(String name) { this.name = name; }
+    @Override public String getName(){
+        return name;
     }
-    
-    // 重载
-    public void printInfo(boolean idPrintID) {
-        System.out.print("Student Name: " + name + "; ID: " + ID + ".   ");
-        tutor.printInfo();
-        System.out.println();
-    }
-
+    @Override public void printInfo() { System.out.println("Course Name: " + name); }
 }
 
-class GrandeStudent extends Student {
-    private String article;
-    // private Teacher tutor;
-    public GrandeStudent(String name, int ID, Teacher tutor,String article) {
-        super(name, ID, tutor);
-        this.article = article;
-    }
+class GrandeStudent extends Student implements Member{
+    private String thesis;
+    public GrandeStudent(String name) { super(name); }
+    @Override public void printInfo() { System.out.println("GrandeStudent Name: " + super.getName()); }
 
-    public int getID() {
-        return super.ID;
-    }
-
-    public String getName() {
-        return super.name;
-    }
-
-    public void printArticle() {
-        System.out.println(article);
-    }
-    
+    public void setThesis(String thesis){ this.thesis = thesis; }
+    public String getThesis(){ return thesis; }
 }
+
+class PrintMemInfo { public void printMemInfo(Member member) { member.printInfo(); }}
+
+interface MemberOperation {
+    public abstract void addMember(String name);
+    public abstract void removeMember(String name);
+    public abstract void updateMember(String originName, String newName);
+    public abstract Member getMember(String name);
+    public abstract void printAllMember();
+}
+
+class PrintMemOperationInfo {
+    public void printMenOperationInfo(MemberOperation memberOperation) {
+        memberOperation.printAllMember();
+    }
+}
+
