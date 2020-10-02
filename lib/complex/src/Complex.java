@@ -86,7 +86,7 @@ class InnerComplex  {
         InnerComplex zNew = new InnerComplex();
         double a = re, b = im, c = z.re, d = z.im;
         // (a+bi)(c+di)=(ac-bd)+(bc+ad)i
-        if((c * c + d * d) == 0) throw new DivException("Divisor cannot be 0");
+        if((c * c + d * d) == 0) throw new DivException("DivException: Divisor cannot be 0");
         zNew.re = (a * c + b * d) / (c * c + d * d);
         zNew.im = (b * c - a * d) / (c * c + d * d);
         return this;

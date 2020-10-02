@@ -34,7 +34,7 @@ class FileExp extends File {
     //     super(parent, child);
     // }
 
-    // @Override // Override语法糖重载不是应用于构造器
+    // @Override // Override语法糖重载不适用于构造器
     public FileExp(String pathname) {
         super(pathname);
     }
