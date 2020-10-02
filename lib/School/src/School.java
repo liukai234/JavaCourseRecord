@@ -6,12 +6,15 @@ public class School{
         Class class1 = new Class(1);
         class1.addTeacher("class1's Teacher1");
         class1.addTeacher("class1's Teacher2");
-        class1.getAllTeacher();
+        class1.printAllTeacher();
 //        Teacher t = class1.getTeacher("class1's Teacher1");
 //        t.printInfo();
         class1.removeTeacher("class1's Teacher1");
-        class1.getAllTeacher();
+        class1.printAllTeacher();
         class1.removeTeacher("class1's Teacher1");
+        class1.changeTeacher("class1's Teacher2", "class1's Teacher3");
+        class1.printAllTeacher();
+
 //        Teacher t = new Teacher("zhaoliu", 20030826);
 //        Student s1 = new Student("zhangsan", 1707000101, t);
 //        s1.printInfo();
@@ -66,11 +69,12 @@ class Class {
     }
 
     // 改
-    public void setTeacher(String name) {
+    public void changeTeacher(String originName, String newName) {
         Iterator<Teacher> iter = teachers.iterator();
         while(iter.hasNext()) {
-            if(iter.next().getTeacherName().equals(name)){
-            // TODO
+            Teacher temp = iter.next(); // iter每次访问.next()时会指向下一个结点
+            if(temp.getTeacherName().equals(originName)){
+                temp.setTeacherName(newName);
             }
         }
 
@@ -89,7 +93,7 @@ class Class {
     }
 
 
-    public void getAllTeacher() {
+    public void printAllTeacher() {
         Iterator<Teacher> iter = teachers.iterator();
         System.out.println("printAllTeachers:");
         while(iter.hasNext()) {
@@ -107,20 +111,14 @@ class Class {
 
 class Teacher {
     private String name;
-
-
     public Teacher(String name){
         this.name = name;
     }
-
+    public void setTeacherName(String name) { this.name = name; }
     public String getTeacherName(){
         return name;
     }
-
-    public void printInfo() {
-        System.out.println("Teacher Name: " + name + "; ");
-    }
-    
+    public void printInfo() { System.out.println("Teacher Name: " + name + "; "); }
 }
 
 class Student {
