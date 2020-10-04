@@ -1,23 +1,29 @@
-//import java.math.BigDecimal;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class BigDecimalEmp {
-    private transient int precision;
-    private final transient long intCompact;
+    private int precision;
     private final int scale;
-    static final long INFLATED = Long.MIN_VALUE;
-    // The unscaled value of this BigDecimal
-    private final BigInteger intVal;
-    public BigDecimalEmp(String val) { this(val.toCharArray(), 0, val.length()); }
+    private long intCompact;
+    private transient String stringCache;
 
-    BigDecimalEmp(BigInteger intVal, long val, int scale, int prec) {
+    // The unscaled value of this BigDecimal
+    // private final BigInteger intVal;
+
+    public BigDecimalEmp(String val) {
+        this(val.toCharArray(), 0, val.length());
+    }
+    public BigDecimalEmp(char[] in) {
+        this(in, 0, in.length);
+    }
+    BigDecimalEmp(long val, int scale, int prec) {
+        this.intCompact = val;
         this.scale = scale;
         this.precision = prec;
-        this.intCompact = val;
-        this.intVal = intVal;
     }
+
     // offset 从0起
     // len = in.length
     public BigDecimalEmp(char[] in, int offset, int len) {
@@ -48,9 +54,9 @@ public class BigDecimalEmp {
         for (; len > 0; offset++, len--) {
             c = in[offset];
             if ((c == '0')) { // have zero // 当某一位为0时
-                if (prec == 0) // 首位为0
+                if (prec == 0) // if (prec != 1 || rs != 0) 从非0位开始计数
                     prec = 1;
-                else if (rs != 0) { // TODO: compact // 整数中间位为0
+                else if (rs != 0) { // compact // 整数中间位为0
                     rs *= 10; // 整数值 *10
                     ++prec; // 位数+1
                 } // else digit is a redundant leading zero
@@ -78,7 +84,7 @@ public class BigDecimalEmp {
 
         rs = isneg ? -rs : rs;
 
-        // 将小数位和整数位全部放入rs中，并用prec记录全部位长，用scl记录小数位长
+        // 将小数位和整数位全部放入rs中，并用prec记录有效数字位长，用scl记录小数位长
         // 0.123的prec = 3, scl = 3
 
         this.scale = scl;
@@ -86,6 +92,14 @@ public class BigDecimalEmp {
         this.intCompact = rs;
     }
 
+    public void getAllInfo() {
+        System.out.println("precision: " + precision + ", scale: " + scale + ", intCompact(rs): " + intCompact);
+    }
+
+    public BigDecimalEmp sub(BigDecimalEmp augend) {
+        augend.intCompact = -augend.intCompact;
+        return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
+    }
 
     public BigDecimalEmp add(BigDecimalEmp augend) {
         return add(this.intCompact, this.scale, augend.intCompact, augend.scale);
@@ -95,74 +109,189 @@ public class BigDecimalEmp {
         long sdiff = (long) scale1 - scale2; // 小数位之差
         if (sdiff == 0) {
             return add(xs, ys, scale1);
-        } /*else if (sdiff < 0) {
-            int raise = checkScale(xs,-sdiff);
+        } else if (sdiff < 0) {
+            long raise = - sdiff;
             long scaledX = longMultiplyPowerTen(xs, raise);
-            if (scaledX != INFLATED) {
-                return add(scaledX, ys, scale2);
-            } else {
-                BigInteger bigsum = bigMultiplyPowerTen(xs,raise).add(ys);
-                return ((xs^ys)>=0) ? // same sign test
-                        new BigDecimal(bigsum, INFLATED, scale2, 0)
-                        : valueOf(bigsum, scale2, 0);
-            }
+            return add(scaledX, ys, scale2);
         } else {
-            int raise = checkScale(ys,sdiff);
+            long raise = sdiff;
             long scaledY = longMultiplyPowerTen(ys, raise);
-            if (scaledY != INFLATED) {
-                return add(xs, scaledY, scale1);
-            } else {
-                BigInteger bigsum = bigMultiplyPowerTen(ys,raise).add(xs);
-                return ((xs^ys)>=0) ?
-                        new BigDecimal(bigsum, INFLATED, scale1, 0)
-                        : valueOf(bigsum, scale1, 0);
-            }
-        }*/
-    }
-
-/*    private static BigDecimalEmp add(long xs, long ys, int scale){
-        long sum = add(xs, ys);
-        if (sum!=INFLATED)
-            return BigDecimal.valueOf(sum, scale);
-        return new BigDecimal(BigInteger.valueOf(xs).add(ys), scale);
-    }*/
-
-    private static BigDecimalEmp add(long xs, long ys, int scale){
-        long sum = add(xs, ys);
-        // TODO
-        return BigDecimal.valueOf(sum, scale);
-
-    }
-
-    public static BigDecimal valueOf(long val) {
-        if (val >= 0 && val < ZERO_THROUGH_TEN.length)
-            return ZERO_THROUGH_TEN[(int)val];
-    }
-
-    public static BigDecimalEmp valueOf(long unscaledVal, int scale) {
-        if (scale == 0)
-            return valueOf(unscaledVal);
-        else if (unscaledVal == 0) {
-            return zeroValueOf(scale);
+            return add(xs, scaledY, scale1);
         }
-        return new BigDecimal(unscaledVal == INFLATED ?
-                INFLATED_BIGINT : null,
-                unscaledVal, scale, 0);
     }
 
-    private static long add(long xs, long ys){
+    private static long longMultiplyPowerTen(long val, long n) {
+        if (val == 0 || n <= 0)
+            return val;
+        return (long) (val * Math.pow(10, n));
+    }
+
+    private static BigDecimalEmp add(long xs, long ys, int scale) {
+        long sum = add(xs, ys);
+        return BigDecimalEmp.valueOf(sum, scale);
+    }
+
+    private static long add(long xs, long ys) {
         long sum = xs + ys;
         return sum;
     }
 
-    public BigInteger unscaledValue() {
-        return this.inflated();
+    public static BigDecimalEmp valueOf(long unscaledVal, int scale) {
+//        if (scale == 0)
+//            return valueOf(unscaledVal);
+//        else if (unscaledVal == 0) {
+//            return zeroValueOf(scale);
+//        }
+        return new BigDecimalEmp(unscaledVal, scale, 0);
     }
 
-    private BigInteger inflated() {
-        if (intVal == null) {
-            return BigInteger.valueOf(intCompact);
+    @Override
+    public String toString() {
+        stringCache = layoutChars();
+        return  stringCache;
+    }
+
+    private String layoutChars() {
+        if (scale == 0)                      // zero scale is trivial
+            return Long.toString(intCompact);
+
+        char[] coeff = Long.toString(Math.abs(intCompact)).toCharArray(); // 将intCompact转换位char[], 其中coeff为小端法
+        int offset = coeff.length;  // offset is the starting index for coeff array
+        // Get the significand as an absolute value
+
+        // Construct a buffer, with sufficient capacity for all cases.
+        // If E-notation is needed, length will be: +1 if negative, +1
+        // if '.' needed, +2 for "E+", + up to 10 for adjusted exponent.
+        // Otherwise it could have +1 if negative, plus leading "0.00000"
+        StringBuilder buf = new StringBuilder();
+
+//        if (signum() < 0)
+        if(intCompact < 0) // prefix '-' if negative
+            buf.append('-');
+            // TODO 负数时的offset需要后移的情况
+//        int coeffLen = coeff.length - offset;
+//        long adjusted = -(long)scale + (coeffLen -1);
+        if (scale >= 0) { // plain number
+            int pad = scale - offset;         // count of padding zeros
+            if (pad >= 0) {                     // 0.xxx form
+                buf.append('0');
+                buf.append('.');
+                for (; pad>0; pad--) {
+                    buf.append('0');
+                }
+                buf.append(coeff, 0, offset);
+            } else {                         // xx.xx form
+                buf.append(coeff, 0, -pad);
+                buf.append('.');
+                buf.append(coeff, -pad, scale);
+            }
         }
-        return intVal;
+        return buf.toString();
+    }
+
+
+    public BigDecimalEmp multiply(BigDecimalEmp multiplicand) {
+        int productScale =  scale + multiplicand.scale;
+        return multiply(this.intCompact, multiplicand.intCompact, productScale);
+    }
+
+    private static BigDecimalEmp multiply(long x, long y, int scale) {
+        long product = multiply(x, y);
+        return valueOf(product, scale);
+    }
+
+    private static long multiply(long x, long y){
+        long product = x * y;
+        return product;
+    }
+    public long signum() {
+        return intCompact;
+    }
+
+    public int scale() {
+        return scale;
+    }
+
+    static BigDecimalEmp zeroValueOf(int scale) {
+            return new BigDecimalEmp(0, scale, 1);
+    }
+
+    public BigDecimalEmp divide(BigDecimalEmp divisor) {
+        /*
+         * Handle zero cases first.
+         */
+        if (divisor.signum() == 0) {   // x/0
+            if (this.signum() == 0)    // 0/0
+                throw new ArithmeticException("Division undefined");  // NaN
+            throw new ArithmeticException("Division by zero");
+        }
+
+        // Calculate preferred scale
+        int preferredScale = this.scale - divisor.scale;
+
+        if (this.signum() == 0) // 0/y
+            return zeroValueOf(preferredScale);
+        else {
+            /*
+             * If the quotient this/divisor has a terminating decimal
+             * expansion, the expansion can have no more than
+             * (a.precision() + ceil(10*b.precision)/3) digits.
+             * Therefore, create a MathContext object with this
+             * precision and do a divide with the UNNECESSARY rounding
+             * mode.
+             */
+            BigDecimalEmp quotient;
+            quotient = this.divide(divisor);
+
+            int quotientScale = quotient.scale();
+
+            // divide(BigDecimal, mc) tries to adjust the quotient to
+            // the desired one by removing trailing zeros; since the
+            // exact divide method does not have an explicit digit
+            // limit, we can add zeros too.
+            if (preferredScale > quotientScale)
+                return quotient.setScale(preferredScale, ROUND_UNNECESSARY);
+
+            return quotient;
+        }
+    }
+    private static BigDecimalEmp divide(final long xs, int xscale, final long ys, int yscale, long preferredScale) {
+        if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
+            yscale -= 1; // [that is, divisor *= 10]
+        }
+        int roundingMode = mc.roundingMode.oldMode;
+        // In order to find out whether the divide generates the exact result,
+        // we avoid calling the above divide method. 'quotient' holds the
+        // return BigDecimal object whose scale will be set to 'scl'.
+        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
+        BigDecimalEmp quotient;
+        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
+            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
+            long scaledXs;
+            if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
+                BigInteger rb = bigMultiplyPowerTen(xs,raise);
+                quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+            } else {
+                quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
+            }
+        } else {
+            int newScale = checkScaleNonZero((long) xscale - mcp);
+            // assert newScale >= yscale
+            if (newScale == yscale) { // easy case
+                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScaleNonZero(preferredScale));
+            } else {
+                int raise = checkScaleNonZero((long) newScale - yscale);
+                long scaledYs;
+                if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
+                    BigInteger rb = bigMultiplyPowerTen(ys,raise);
+                    quotient = divideAndRound(BigInteger.valueOf(xs),
+                            rb, scl, roundingMode,checkScaleNonZero(preferredScale));
+                } else {
+                    quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
+                }
+            }
+        }
+        // doRound, here, only affects 1000000000 case.
+        return doRound(quotient,mc);
     }
 }
