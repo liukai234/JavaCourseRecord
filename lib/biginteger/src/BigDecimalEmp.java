@@ -203,6 +203,7 @@ public class BigDecimalEmp {
         long product = x * y;
         return product;
     }
+
     public long signum() {
         return intCompact;
     }
@@ -227,8 +228,10 @@ public class BigDecimalEmp {
 
         // Calculate preferred scale // 被除数小数位数 - 除数小数位数
         int preferredScale = this.scale - divisor.scale;
+        if(preferredScale < 0) preferredScale = -preferredScale + this.scale;
 
         if (this.signum() == 0) // 0/y
+//            if(this.scale)
             return zeroValueOf(preferredScale); //保留小数位数
         else {
             /*
@@ -285,13 +288,9 @@ public class BigDecimalEmp {
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
         }
-        // In order to find out whether the divide generates the exact result,
-        // we avoid calling the above divide method. 'quotient' holds the
-        // return BigDecimal object whose scale will be set to 'scl'.
-        long scl = preferredScale + yscale - xscale;
-        BigDecimalEmp quotient;
 
-        quotient = valueOf(divideAndRound(xs, ys), (int)scl);
+        BigDecimalEmp quotient;
+        quotient = valueOf(divideAndRound(xs, ys), (int)preferredScale);
         return quotient;
     }
 
@@ -318,7 +317,6 @@ public class BigDecimalEmp {
     }
 
     private static long divideAndRound(long ldividend, long ldivisor) {
-        int qsign; // quotient sign
         long q = ldividend / ldivisor; // store quotient in long
         return q;
     }
