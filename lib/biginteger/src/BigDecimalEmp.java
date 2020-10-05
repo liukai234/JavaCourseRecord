@@ -1,4 +1,3 @@
-
 import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -211,7 +210,7 @@ public class BigDecimalEmp {
     public int scale() {
         return scale;
     }
-
+    public int precision() { return precision; }
     static BigDecimalEmp zeroValueOf(int scale) {
             return new BigDecimalEmp(0, scale, 1);
     }
@@ -226,11 +225,11 @@ public class BigDecimalEmp {
             throw new ArithmeticException("Division by zero");
         }
 
-        // Calculate preferred scale
+        // Calculate preferred scale // 被除数小数位数 - 除数小数位数
         int preferredScale = this.scale - divisor.scale;
 
         if (this.signum() == 0) // 0/y
-            return zeroValueOf(preferredScale);
+            return zeroValueOf(preferredScale); //保留小数位数
         else {
             /*
              * If the quotient this/divisor has a terminating decimal
@@ -240,8 +239,13 @@ public class BigDecimalEmp {
              * precision and do a divide with the UNNECESSARY rounding
              * mode.
              */
-            BigDecimalEmp quotient;
-            quotient = this.divide(divisor);
+            BigDecimalEmp dividend = this;
+            BigDecimalEmp quotient; // 商
+            int xscale = dividend.precision();
+            int yscale = divisor.precision();
+
+            quotient = this.divide(dividend.intCompact, xscale, divisor.intCompact, yscale, preferredScale);
+
 
             int quotientScale = quotient.scale();
 
@@ -249,49 +253,73 @@ public class BigDecimalEmp {
             // the desired one by removing trailing zeros; since the
             // exact divide method does not have an explicit digit
             // limit, we can add zeros too.
-            if (preferredScale > quotientScale)
-                return quotient.setScale(preferredScale, ROUND_UNNECESSARY);
+            if (preferredScale > quotientScale) // 将被除数精确位补足 // 四舍五入
+                return quotient.setScale(preferredScale);
 
             return quotient;
         }
     }
+
+    private static int compareMagnitudeNormalized(long xs, int xscale, long ys, int yscale) {
+        // assert xs!=0 && ys!=0
+        int sdiff = xscale - yscale;
+        if (sdiff != 0) {
+            if (sdiff < 0) {
+                xs = longMultiplyPowerTen(xs, -sdiff);
+            } else { // sdiff > 0
+                ys = longMultiplyPowerTen(ys, sdiff);
+            }
+        }
+        return longCompareMagnitude(xs, ys);
+    }
+
+    private static int longCompareMagnitude(long x, long y) {
+        if (x < 0)
+            x = -x;
+        if (y < 0)
+            y = -y;
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+    }
+
     private static BigDecimalEmp divide(final long xs, int xscale, final long ys, int yscale, long preferredScale) {
         if (compareMagnitudeNormalized(xs, xscale, ys, yscale) > 0) {// satisfy constraint (b)
             yscale -= 1; // [that is, divisor *= 10]
         }
-        int roundingMode = mc.roundingMode.oldMode;
         // In order to find out whether the divide generates the exact result,
         // we avoid calling the above divide method. 'quotient' holds the
         // return BigDecimal object whose scale will be set to 'scl'.
-        int scl = checkScaleNonZero(preferredScale + yscale - xscale + mcp);
+        long scl = preferredScale + yscale - xscale;
         BigDecimalEmp quotient;
-        if (checkScaleNonZero((long) mcp + yscale - xscale) > 0) {
-            int raise = checkScaleNonZero((long) mcp + yscale - xscale);
-            long scaledXs;
-            if ((scaledXs = longMultiplyPowerTen(xs, raise)) == INFLATED) {
-                BigInteger rb = bigMultiplyPowerTen(xs,raise);
-                quotient = divideAndRound(rb, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
-            } else {
-                quotient = divideAndRound(scaledXs, ys, scl, roundingMode, checkScaleNonZero(preferredScale));
-            }
+
+        quotient = valueOf(divideAndRound(xs, ys), (int)scl);
+        return quotient;
+    }
+
+    public BigDecimalEmp setScale(int newScale) {
+        int oldScale = this.scale;
+        if (newScale == oldScale)        // easy case
+            return this;
+        if (this.signum() == 0)            // zero can have any scale
+            return zeroValueOf(newScale);
+
+        long rs = this.intCompact;
+        if (newScale > oldScale) {
+            int raise = newScale - oldScale;
+            return valueOf(rs, newScale);
+
         } else {
-            int newScale = checkScaleNonZero((long) xscale - mcp);
-            // assert newScale >= yscale
-            if (newScale == yscale) { // easy case
-                quotient = divideAndRound(xs, ys, scl, roundingMode,checkScaleNonZero(preferredScale));
-            } else {
-                int raise = checkScaleNonZero((long) newScale - yscale);
-                long scaledYs;
-                if ((scaledYs = longMultiplyPowerTen(ys, raise)) == INFLATED) {
-                    BigInteger rb = bigMultiplyPowerTen(ys,raise);
-                    quotient = divideAndRound(BigInteger.valueOf(xs),
-                            rb, scl, roundingMode,checkScaleNonZero(preferredScale));
-                } else {
-                    quotient = divideAndRound(xs, scaledYs, scl, roundingMode,checkScaleNonZero(preferredScale));
-                }
-            }
+            // newScale < oldScale -- drop some digits
+            // Can't predict the precision due to the effect of rounding.
+            int drop = oldScale - newScale;
+            drop = (int)longMultiplyPowerTen(10, (long)drop);
+            return valueOf(divideAndRound(rs, drop), newScale);
+
         }
-        // doRound, here, only affects 1000000000 case.
-        return doRound(quotient,mc);
+    }
+
+    private static long divideAndRound(long ldividend, long ldivisor) {
+        int qsign; // quotient sign
+        long q = ldividend / ldivisor; // store quotient in long
+        return q;
     }
 }
