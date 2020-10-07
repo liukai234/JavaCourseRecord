@@ -8,11 +8,11 @@ public class School{
 //        PrintMemInfo printInfo = new PrintMemInfo(); // 打印某指定成员所有信息
 //
         Class class1 = new Class(1);
-        Class.MemberOperation memberOperation = class1.new MemberOperation();
+        Class.MemberOperation class1memberOperation = class1.new MemberOperation();
 
         // name,
-        memberOperation.addMember(new Teacher("class1's Teacher1"));
-        memberOperation.printAllMember();
+        class1memberOperation.addMember(new Teacher("class1's Teacher1"));
+        class1memberOperation.printAllMember();
 
 //        class1.teacherOperation.addMember("class1's Teacher2");
 //        printMemOperationInfo.printMenOperationInfo(class1.teacherOperation);
