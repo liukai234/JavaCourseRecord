@@ -8,7 +8,7 @@ class Class {
     public Class(int num) {
         this.num = num;
     }
-
+    public int getThisClass() { return num; }
     private LinkedList<Teacher> teachers = new LinkedList<>();
     private LinkedList<Student> students = new LinkedList<>();
     private LinkedList<Course> courses = new LinkedList<>();

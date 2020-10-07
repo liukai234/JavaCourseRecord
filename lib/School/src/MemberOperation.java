@@ -150,7 +150,7 @@ class MemberOperation  {
     }
 
     public static void printAllMember(Class c) {
-        System.out.println("print ALL Member: ");
+        System.out.println("print ALL Member: class" + c.getThisClass());
 
         System.out.println("Teacher: " + c.getTeachers().size());
         Iterator<Teacher> iterTeachers = c.getTeachers().iterator();
