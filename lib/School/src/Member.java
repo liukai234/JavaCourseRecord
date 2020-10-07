@@ -53,10 +53,10 @@ class Course implements Member{
     @Override public String toString(){ stringCache = "Course Name: " + name; return stringCache; }
 }
 
-class GrandeStudent extends Student implements Member{
+class GrandStudent extends Student implements Member{
     private String stringCache;
     private String thesis;
-    public GrandeStudent(String name) { super(name); }
+    public GrandStudent(String name) { super(name); }
     @Override public void printInfo() { System.out.println("GrandeStudent Name: " + super.getName()); }
     @Override public String toString(){ stringCache = "GrandeStudent Name: " + super.getName() + ", thesis: " + thesis; return stringCache; }
 
