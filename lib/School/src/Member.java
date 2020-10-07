@@ -58,7 +58,7 @@ class GrandeStudent extends Student implements Member{
     private String thesis;
     public GrandeStudent(String name) { super(name); }
     @Override public void printInfo() { System.out.println("GrandeStudent Name: " + super.getName()); }
-    @Override public String toString(){ stringCache = "GrandeStudent Name: " + super.getName(); return stringCache; }
+    @Override public String toString(){ stringCache = "GrandeStudent Name: " + super.getName() + ", thesis: " + thesis; return stringCache; }
 
     public void setThesis(String thesis){ this.thesis = thesis; }
     public String getThesis(){ return thesis; }

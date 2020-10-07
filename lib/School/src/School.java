@@ -8,11 +8,25 @@ public class School{
 //        PrintMemInfo printInfo = new PrintMemInfo(); // 打印某指定成员所有信息
 //
         Class class1 = new Class(1);
-        Class.MemberOperation class1memberOperation = class1.new MemberOperation();
+        Class class2 = new Class(2);
+//        Class.MemberOperation class1memberOperation = class1.new MemberOperation();
 
+        MemberOperation.addMember(new Teacher("class1's Teacher1"), class1);
+        MemberOperation.addMember(new Student("class1's Student1"), class1);
+        MemberOperation.addMember(new Student("class1's Student2"), class1);
+        MemberOperation.addMember(new Course("class1's Course1"), class1);
+        MemberOperation.printAllMember(class1);
+
+        MemberOperation.addMember(new GrandeStudent("class2's GrandeStudent1"), class2);
+
+        GrandeStudent t = (GrandeStudent)MemberOperation.getMember(new GrandeStudent("class2's GrandeStudent1"), class2);
+        t.setThesis("GrandStudent1's thesis");
+        System.out.println(t);
+
+        MemberOperation.printAllMember(class2);
         // name,
-        class1memberOperation.addMember(new Teacher("class1's Teacher1"));
-        class1memberOperation.printAllMember();
+//        class1memberOperation.addMember(new Teacher("class1's Teacher1"));
+//        class1memberOperation.printAllMember();
 
 //        class1.teacherOperation.addMember("class1's Teacher2");
 //        printMemOperationInfo.printMenOperationInfo(class1.teacherOperation);
