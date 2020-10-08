@@ -1,0 +1,8 @@
+user: root
+passwd: 1647
+
+安全初始化：mysqld --initialize --console //初始化data目录，并授权一个无密码root用户
+安装服务：mysqld install
+启动服务：net start mysql
+停止服务：net stop mysql
+将mysql-connector-java-8.0.21.jar导入项目
