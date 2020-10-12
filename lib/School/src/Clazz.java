@@ -18,7 +18,7 @@ class Clazz {
         if(mName == "Teacher") ret = (LinkedList)teachers;
         else if(mName == "Student") ret = (LinkedList)students;
         else if(mName == "Course") ret = (LinkedList)courses;
-        else if(mName == "GrandStudent") ret = (LinkedList) grandStudents;
+        else if(mName == "GrandStudent") ret = (LinkedList)grandStudents;
         if(ret == null) throw new NullPointerException("Member Type not exist");
         return ret;
     }
