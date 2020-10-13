@@ -2,18 +2,36 @@ import java.util.*;
 
 public class ArrayToCollection{
     public static void main(String[] args){
-
+        // Integer Double 等包装类使用intValue() doubleValue()来获得值
+        // Java拥有自动装箱自动拆箱机制，自动拆箱：int m = list.get(k) // 返回Integer对象
+        // 自动转换为基本对象类型
         int n = 5;
+        int j = 0;
         String[] intString = new String[n];
-        for(int i = 0; i < n; i++){
-            intString[i] = String.valueOf(i);
+        for(int i = n - 1; i >= 0; i--){
+            intString[j] = String.valueOf(i);
+            j += 1;
+        }
+        Arrays.sort(intString);
+
+        List list = CollectionsOperation.arraysToLinkedList(intString);
+
+        CollectionsOperation clist= new CollectionsOperation(list);
+        clist.CollectionsTestOperation();
+        System.out.print(clist);
+
+        Stack<String> stack = new Stack<>();
+        StackStrOperation stackStrOperation = new StackStrOperation(stack);
+        for(Object str : list) {
+            stackStrOperation.push(str.toString());
         }
 
-        // 将数组化为列表
-        List<String> list = Arrays.asList(intString);
-
-        for(String li: list){
-            System.out.print(li + " ");
+        System.out.println();
+        while(!stackStrOperation.empty()) {
+            System.out.println(stackStrOperation.peek());
+            stackStrOperation.pop();
         }
     }
 }
+
+// JNI 调用其他语言

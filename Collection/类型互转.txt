@@ -1,5 +1,5 @@
 
 // Integer, String, Short, Double类型都有valueOf()成员
-int a = Integer.parseInt("123"); //
+int a = Integer.parseInt("123"); // parse解析 Int Short Double etc.
 int b = Integer.valueOf("123"); // 这个有个一个装箱的过程，内部调用parseInt()来实现，但返回Integer对象
 String c = String.valueOf(a);
