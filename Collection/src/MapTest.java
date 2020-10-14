@@ -10,6 +10,5 @@ public class MapTest {
         mapOperation.put(1, "123");
         System.out.println(mapOperation.size());
         System.out.println(mapOperation.get(1));
-
     }
 }

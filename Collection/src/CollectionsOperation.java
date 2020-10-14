@@ -30,13 +30,15 @@ public class CollectionsOperation {
     public static List arraysToLinkedList (String[] intString) {
         // Arrays.asList(T... a) return java.util.Arrays$ArrayList // 从数组得到顺序表
         List<String> array = Arrays.asList(intString); // 数组表使用顺序结构，适用于查改，但不适用增删
+        // Object [] str = array.toArray(); // 逆过程 // 将List转换为array
+
 
         List<String> list = new LinkedList<>(array); // LinkedList使用链式结构，适用于增删，但查询不如链表快
-
         // LinkedList和ArrayList都是由List继承而来
         // List<String> list = new LinkedList<>(array);
         // List<String> array = new ArrayList<>(list);
 
+        // 对于list有专用的迭代器，可以逆序遍历，add等 ListIterator
         return list;
     }
 }

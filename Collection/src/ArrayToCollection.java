@@ -16,7 +16,12 @@ public class ArrayToCollection{
 
         List list = CollectionsOperation.arraysToLinkedList(intString);
 
+        // ListIterator liter = list.listIterator(); // list专用遍历器ListIterator 参数为list.size()时链表可以逆序
+        // liter.next();
+        // System.out.print("liter" + liter.nextIndex() + "\n");  // 查看当前指针的位置
+
         CollectionsOperation clist= new CollectionsOperation(list);
+
         clist.CollectionsTestOperation();
         System.out.print(clist);
 
