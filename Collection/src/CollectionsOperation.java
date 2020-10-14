@@ -13,9 +13,13 @@ public class CollectionsOperation {
     public void CollectionsTestOperation() {
         // Collections的静态方法
         Collections.sort(list); // 默认升序
+        // 若要自定义该类大小  implement Comparable 接口，重写public int compareTo(Object b) { return this.data - b.data; } 方法
+
         Collections.reverse(list); // 逆序链表，或将升序链表转换为降序
         Collections.rotate(list, -1); // 旋转链表中的数据，正值时向右旋转，负值时向左旋转
         Collections.shuffle(list); // 根据洗牌算法重新排序
+        // Collections.binarySearch(list, Object Key); // 二分查找，返回下标，然后利用list.get(index)得到对象
+
     }
 
     @Override
