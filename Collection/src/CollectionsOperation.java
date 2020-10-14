@@ -42,6 +42,8 @@ public class CollectionsOperation {
         // List<String> list = new LinkedList<>(array);
         // List<String> array = new ArrayList<>(list);
 
+        // list.set(2, "AA"); // 更新
+
         // 对于list有专用的迭代器，可以逆序遍历，add等 ListIterator
         return list;
     }
