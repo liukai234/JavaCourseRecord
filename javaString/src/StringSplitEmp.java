@@ -4,6 +4,8 @@ public class StringSplitEmp {
     public static void main(String[] args) {
         String str = "www.hello.com";
         // 不带第二个参数默认使用空格分割，第二个字符串参数来指明分割符号，如果是点需要进行转义\\.,第三个参数为true表示分隔符也返回
+        // 如果delim是含有多个字符的话则从主串中剔除所子串包含的字符  new StringTokenizer("w**#ww.h#*ello.com", "#*");
+
         StringTokenizer st = new StringTokenizer(str, "l");
         System.out.println("通过l分割");
 
