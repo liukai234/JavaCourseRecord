@@ -9,10 +9,11 @@ public class Board {
 
     public void creatRect() throws MaxNumException {
         if(rectNumber >= MAX_NUM) throw new MaxNumException(rectNumber);
-            rects[rectNumber] = new Rect();
-            rectNumber += 1;
 
+        rects[rectNumber] = new Rect();
+        rectNumber += 1;
     }
+
     public void creatCircle() throws MaxNumException {
         if(circleNumber >= MAX_NUM) throw new MaxNumException(circleNumber);
 
@@ -38,6 +39,8 @@ class MaxNumException extends java.lang.Exception {
     public MaxNumException(Number n) {
         message = n + " overflow";
     }
+
+    @Override
     public String getMessage() {
         return message;
     }
