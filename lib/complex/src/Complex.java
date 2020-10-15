@@ -1,8 +1,10 @@
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 /**
  * src.Complex
  */
+
 public class Complex {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -11,7 +13,7 @@ public class Complex {
         input.close();
 
         InnerComplex complex1 = new InnerComplex(1.0, 2.0);
-        InnerComplex complex2 = new InnerComplex(0, 0);
+        InnerComplex complex2 = new InnerComplex("0, 0");
 
         InnerComplex complex3 = complex1.add(complex2);
         complex1.print(); System.out.print(" + "); complex2.print(); System.out.print(" = "); complex3.print(); System.out.println();
@@ -46,8 +48,17 @@ class InnerComplex  {
     public InnerComplex(double re) {
         this.re = re;
     }
+
+    public InnerComplex(String str) {
+        StringTokenizer stringTokenizer = new StringTokenizer(str, ",");
+        re = Double.parseDouble(stringTokenizer.nextElement().toString());
+        im = Double.parseDouble(stringTokenizer.nextElement().toString());
+    }
     public InnerComplex() {}
-    
+
+    public void setRe(double re) { this.re = re; }
+    public void setIm(double im) { this.im = im; }
+
     public InnerComplex add(InnerComplex z) {
         InnerComplex zNew = new InnerComplex();
         zNew.re = this.re + z.re;
