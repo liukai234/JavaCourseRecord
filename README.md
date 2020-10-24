@@ -20,3 +20,7 @@
 7. /lib/complex
 8. /lib/file -> /fileOperations(计划迁移)
 9. /lib/School
+
+// Build & Run   
+// javac -d out/ src/*.java   
+// java -classpath out/ Test   
