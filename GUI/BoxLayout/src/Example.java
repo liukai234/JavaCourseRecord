@@ -14,7 +14,7 @@ public class Example {
     }
 }
 
-class WindowsMenu extends JFrame{
+class  WindowsMenu extends JFrame{
     public WindowsMenu(String s, int w, int h) {
         init(s);
         // setBounds(400, 400, 300, 300) = setLocation + setSize
