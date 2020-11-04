@@ -36,8 +36,11 @@ class MousePolice implements MouseListener {
 //            if(startX - e.getX() >= 0)
 //                board.creatRect(e.getX(), e.getY(), startX - e.getX(), startY - e.getY());
 //            else
+            int minX = Math.min(startX, e.getX());
+            int minY = Math.min(startY, e.getY());
 
-                board.creatRect(startX, startY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
+            board.creatRect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
+            board.repaint();
         } catch (MaxNumException exception) {
             System.out.println(exception.getMessage());
         }

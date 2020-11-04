@@ -37,7 +37,7 @@ public class Board extends JPanel {
             x = rects[i];
             g.drawRect(x.getX(), x.getY(), x.getWidth(), x.getHeight());
         }
-        repaint();
+
         g.dispose();
     }
 }
