@@ -33,6 +33,7 @@ class MousePolice implements MouseMotionListener, MouseListener{
     public void mouseReleased(MouseEvent e) {
 
         // 获得绘图 g
+        // 调用继承JPanel的对象的getGraphics()方法
         g = board.getGraphics();
 
         System.out.println("mouseReleased");
