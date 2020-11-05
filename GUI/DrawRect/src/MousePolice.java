@@ -1,22 +1,21 @@
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-class MousePolice implements MouseListener {
+class MousePolice implements MouseMotionListener, MouseListener{
     Board board;
-
+    static boolean leftButtonDown = false;
     int startX;
     int startY;
-//    Graphics g;
-//    public void setGraphics(Graphics g) {
-//        this.g = g;
-//    }
+    Graphics g;
+    private static int lastWidth = 0;
+    private static int lastHeight = 0;
+    int lastx = 0;
+    int lasty = 0;
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+    public void setBoard(Board board) { this.board = board; }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -25,25 +24,32 @@ class MousePolice implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         System.out.println("mousePressed");
+        leftButtonDown = true;
         startX = e.getX();
         startY = e.getY();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("mouseReleased");
-        try{
-//            if(startX - e.getX() >= 0)
-//                board.creatRect(e.getX(), e.getY(), startX - e.getX(), startY - e.getY());
-//            else
-            int minX = Math.min(startX, e.getX());
-            int minY = Math.min(startY, e.getY());
 
-            board.creatRect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
-            board.repaint();
-        } catch (MaxNumException exception) {
-            System.out.println(exception.getMessage());
-        }
+        // 获得绘图 g
+        g = board.getGraphics();
+
+        System.out.println("mouseReleased");
+        leftButtonDown = false;
+
+        int minX = Math.min(startX, e.getX());
+        int minY = Math.min(startY, e.getY());
+
+        Shape shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
+        // 从board这个显示且添加到主面板中的组件中获取graphics
+        shape.Draw(g);
+
+        board.add(shape);
+        board.repaint();
+
+        lastx = 0;
+        lasty = 0;
     }
 
     @Override
@@ -55,4 +61,32 @@ class MousePolice implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        g = board.getGraphics();
+        System.out.println("mouseDragged");
+        int minX = Math.min(startX, e.getX());
+        int minY = Math.min(startY, e.getY());
+
+        // erase
+        Shape shape = new Rect(lastx, lasty, lastWidth, lastHeight);
+        g.setColor(board.getBackground());
+        shape.Draw(g);
+
+        Shape shape1 = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
+        g.setColor(Color.blue);
+        shape1.Draw(g);
+
+        lastWidth = Math.abs(e.getX() - startX);
+        lastHeight = Math.abs(e.getY() - startY);
+
+        lastx = minX;
+        lasty = minY;
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+
 }
