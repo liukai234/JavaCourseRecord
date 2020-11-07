@@ -11,11 +11,13 @@ class MousePolice implements MouseMotionListener, MouseListener{
     Graphics g;
     private static int lastWidth = 0;
     private static int lastHeight = 0;
-    int lastx = 0;
-    int lasty = 0;
+    int lastX = 0;
+    int lastY = 0;
 
+    String shapeType = "null";
     public void setBoard(Board board) { this.board = board; }
-
+    public  void setShapeType(String shapeType) { this.shapeType = shapeType; }
+    public void setGraphics() { this.g = board.getGraphics(); }
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -25,6 +27,8 @@ class MousePolice implements MouseMotionListener, MouseListener{
     public void mousePressed(MouseEvent e) {
         System.out.println("mousePressed");
         leftButtonDown = true;
+        board.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+
         startX = e.getX();
         startY = e.getY();
     }
@@ -35,22 +39,24 @@ class MousePolice implements MouseMotionListener, MouseListener{
         // 获得绘图 g
         // 调用继承JPanel的对象的getGraphics()方法
         g = board.getGraphics();
-
+        board.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         System.out.println("mouseReleased");
         leftButtonDown = false;
 
         int minX = Math.min(startX, e.getX());
         int minY = Math.min(startY, e.getY());
+        Shape shape = switch (shapeType) {
+            case "Rect" -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+            case "Circle" -> new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+            default -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+        };
 
-        Shape shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
         // 从board这个显示且添加到主面板中的组件中获取graphics
-        shape.Draw(g);
-
         board.add(shape);
-        board.repaint();
+        board.reFresh();
 
-        lastx = 0;
-        lasty = 0;
+        lastX = 0;
+        lastY = 0;
     }
 
     @Override
@@ -70,20 +76,45 @@ class MousePolice implements MouseMotionListener, MouseListener{
         int minX = Math.min(startX, e.getX());
         int minY = Math.min(startY, e.getY());
 
-        // erase
-        Shape shape = new Rect(lastx, lasty, lastWidth, lastHeight);
-        g.setColor(board.getBackground());
-        shape.Draw(g);
+        Shape shapeErase = null;
+        Shape shape = null;
 
-        Shape shape1 = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() -  startY));
-        g.setColor(Color.blue);
-        shape1.Draw(g);
+        switch (shapeType) {
+            case "Rect" -> {
+                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight, g);
+                g.setColor(board.getBackground());
+                shapeErase.Draw();
+                board.reFresh();
+                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                g.setColor(Color.blue);
+                shape.Draw();
+            }
+            case "Circle" -> {
+                shapeErase = new Circle(lastX, lastY, lastWidth, lastHeight, g);
+                g.setColor(board.getBackground());
+                shapeErase.Draw();
+                board.reFresh();
+                board.repaint();
+                shape = new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                g.setColor(Color.blue);
+                shape.Draw();
+            }
+            default -> {
+                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight, g);
+                g.setColor(board.getBackground());
+                shapeErase.Draw();
+                board.reFresh();
+                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                g.setColor(Color.blue);
+                shape.Draw();
+            }
+        }
 
         lastWidth = Math.abs(e.getX() - startX);
         lastHeight = Math.abs(e.getY() - startY);
 
-        lastx = minX;
-        lasty = minY;
+        lastX = minX;
+        lastY = minY;
     }
 
     @Override

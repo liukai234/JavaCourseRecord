@@ -1,12 +1,12 @@
 import java.awt.*;
 
-public class Rect implements Shape {
+public class Circle implements Shape {
     private final int x;
     private final int y;
     private final int width;
     private final int height;
-    Graphics g;
-    public Rect(int x, int y, int width, int height, Graphics g) {
+    private final Graphics g;
+    public Circle(int x, int y, int width, int height, Graphics g) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -15,11 +15,11 @@ public class Rect implements Shape {
     }
 
     public void Draw() {
-        g.drawRect(x, y, width, height);
+        g.drawOval(x, y, width, height);
     }
 
     @Override
     public void Draw(Graphics g) {
-        g.drawRect(x, y, width, height);
+        g.drawOval(x, y, width, height);
     }
 }
