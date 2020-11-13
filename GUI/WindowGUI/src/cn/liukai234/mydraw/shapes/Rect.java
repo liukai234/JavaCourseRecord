@@ -7,7 +7,9 @@ public class Rect implements Shape {
 	private int width;
 	private int height;
 	private GC gcMain;
-	
+
+	public static String Type = "Rect";
+
 	public Rect() {}
 	public Rect(int top,int left,int width,int height,GC gc){
 		this.top=top;

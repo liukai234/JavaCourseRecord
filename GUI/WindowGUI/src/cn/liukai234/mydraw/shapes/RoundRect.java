@@ -6,9 +6,11 @@ public class RoundRect implements Shape{
 	private int left;
 	private int width;
 	private int height;
-	private int arcWidth = 50;
-	private int arcHeight = 50;
+	private int arcWidth = 10;
+	private int arcHeight = 10;
 	private GC gcMain;
+
+	public static String Type = "RoundRect";
 	
 	public RoundRect() {}
 	public RoundRect(int top,int left,int width,int height,int arcWidth,int arcHeight,GC gc){

@@ -7,7 +7,9 @@ public class Circle implements Shape{
 	private int width;
 	private int height;
 	private GC gcMain;
-	
+
+	public static String Type = "Circle";
+
 	public Circle() {}
 	public Circle(int top,int left,int width,int height,GC gc){
 		this.top=top;

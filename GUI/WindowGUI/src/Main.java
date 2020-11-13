@@ -14,6 +14,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 	private static GC gcMain = null;
 	private static boolean leftButtonDown = false;
@@ -32,12 +35,12 @@ public class Main {
 		shell.setSize(450, 300);
 		shell.setText("SWT Application");
 		board = new Board();
+
+		List listClass = null;
+		String pkg = "cn.liukai234.mydraw.shapes";
+//		listClass = ClassUtils.getResourceAsStream(pkg);
 		
-//		List listClass = null;
-//		String pkg = "cn.liukai234.mydraw.shapes";
-//		getClass = ClassUtil
-		
-//		ArrayList<String> shapeTypes = new ArrayList<String>();
+		ArrayList<String> shapeTypes = new ArrayList<String>();
 		
 		
 		shell.addPaintListener(new PaintListener() {
@@ -86,7 +89,6 @@ public class Main {
 					int width = e.x - startX;
 					int height = e.y - startY;
 
-					// �����������������
 					gcMain.setLineStyle(SWT.LINE_DOT);
 					gcMain.setForeground(shell.getBackground());
 					gcMain.drawRectangle(startX, startY, lastWidth,lastHeight);
@@ -95,11 +97,11 @@ public class Main {
 					gcMain.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 
 					Shape shape = null;
-					Class<?> shapeClass = null;
+					Class shapeClass = null;
 					try {
 						shapeClass = Class.forName("cn.liukai234.mydraw.shapes." + shapeType);
 						Object oShape = shapeClass.newInstance();
-						
+
 						shape = (Shape)oShape;
 						shape.setTop(startX);
 						shape.setLeft(startY);

@@ -3,10 +3,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BufferBuilder {
+public class StreamOperator {
 
     public static void main(String[] args) throws IOException{ // 对于BufferedWriter方法需要异常抛出
-        // 字符输入输出
+
+        // 控制台字节流
         String line;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         line = "---";// br.readLine();
