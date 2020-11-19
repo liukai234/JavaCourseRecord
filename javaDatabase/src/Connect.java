@@ -11,13 +11,14 @@ public class Connect {
     private String passwd;
     private Connection conn = null;
 
+    // 初始化变量
     public Connect(String uri, String user, String passwd) {
         this.uri = uri;
         this.user = user;
         this.passwd = passwd;
     }
 
-    // 连接
+    // 建立连接
     public void connect () {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -32,6 +33,8 @@ public class Connect {
     public Connection getConn() {
         return conn;
     }
+
+    // 关闭连接
     public void closeConn() {
         try {
             conn.close();
@@ -40,31 +43,7 @@ public class Connect {
             System.out.println("e");
         }
     }
-    // 输出全部
-    public void printAll(String table) {
-        try {
-            String stringQuery = "SELECT * FROM " + table;
-            PreparedStatement sql = conn.prepareStatement(stringQuery);
-
-            ResultSet rs = sql.executeQuery();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
-
-            for (int i = 1; i <= columnCount; i++) {
-                System.out.print(metaData.getColumnName(i) + "    ");
-                if (i == columnCount) System.out.println();
-            }
-
-            while (rs.next()) {
-                for (int i = 1; i <= columnCount; i++) {
-                    System.out.print(rs.getString(i) + "    "); // 下标从1开始
-                    if (i == columnCount) System.out.println();
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
+    
 
     // 事务执行语句
     public void commit(String ... args) {
@@ -92,6 +71,32 @@ public class Connect {
             }
         } catch (SQLException e) {
             System.out.println("e");
+        }
+    }
+
+    // 游标SELECT
+    public void printAll(String table) {
+        try {
+            String stringQuery = "SELECT * FROM " + table;
+            PreparedStatement sql = conn.prepareStatement(stringQuery);
+
+            ResultSet rs = sql.executeQuery();
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.print(metaData.getColumnName(i) + "    ");
+                if (i == columnCount) System.out.println();
+            }
+
+            while (rs.next()) {
+                for (int i = 1; i <= columnCount; i++) {
+                    System.out.print(rs.getString(i) + "    "); // 下标从1开始
+                    if (i == columnCount) System.out.println();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
         }
     }
 }

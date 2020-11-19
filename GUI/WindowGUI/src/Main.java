@@ -16,6 +16,7 @@ import org.eclipse.swt.events.SelectionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
 	private static GC gcMain = null;
@@ -24,7 +25,7 @@ public class Main {
 	private static int lastHeight = 0;
 	protected static int startX = 0;
 	protected static int startY = 0;
-	private static String shapeType = "Rect";
+	private static String shapeType = "cn.liukai234.mydraw.shapes.Rect";
 	private static Shell shell;
 	private static Board board;
 	
@@ -32,17 +33,52 @@ public class Main {
 		
 		Display display = Display.getDefault();
 		shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(900, 600);
 		shell.setText("SWT Application");
 		board = new Board();
 
 		List listClass = null;
 		String pkg = "cn.liukai234.mydraw.shapes";
-//		listClass = ClassUtils.getResourceAsStream(pkg);
+		listClass = ClassUtil.getClassList(pkg, true, null);
 		
 		ArrayList<String> shapeTypes = new ArrayList<String>();
-		
-		
+		for(Object object : listClass) {
+			String name = ((Class<?>)object).getName();
+			if(!name.equals("cn.liukai234.mydraw.shapes.Shape")) {// cn.liukai234.mydraw.shapes.Shape
+				shapeTypes.add(name);
+			}
+		}
+
+
+		int indexButton = 0;
+
+		for(String strClass : shapeTypes) {
+			Button btn = new Button(shell, SWT.NONE);
+			btn.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					shapeType = strClass;
+				}
+			});
+			btn.setBounds(110 * indexButton, 0, 105, 27);
+			indexButton ++;
+			try{
+				Class<?> shapeClass = Class.forName(strClass);
+//				Class shapeClass = Class.forName("cn.liukai234.mydraw.shapes." + shapeType);
+				String str = shapeClass.getTypeName();
+				StringTokenizer st = new StringTokenizer(str, ".", false);
+				st.countTokens();
+				while(st.hasMoreElements()){
+					str = st.nextElement().toString();
+				}
+				btn.setText(str);
+				btn.setData("shapeType", strClass);
+			} catch(Exception e) {
+				btn.setText(strClass);
+				btn.setData("shapeType", strClass);
+			}
+		}
+
 		shell.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent arg0) {
 				board.refresh();
@@ -99,7 +135,8 @@ public class Main {
 					Shape shape = null;
 					Class shapeClass = null;
 					try {
-						shapeClass = Class.forName("cn.liukai234.mydraw.shapes." + shapeType);
+						// TODO
+						shapeClass = Class.forName(shapeType); // "cn.liukai234.mydraw.shapes."
 						Object oShape = shapeClass.newInstance();
 
 						shape = (Shape)oShape;
@@ -140,35 +177,35 @@ public class Main {
 		
 
 		
-		Button btnRect = new Button(shell, SWT.NONE);
-		btnRect.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shapeType = "Rect";
-			}
-		});
-		btnRect.setBounds(10, 10, 98, 30);
-		btnRect.setText("Rect");
-		
-		Button btnCircle = new Button(shell, SWT.NONE);
-		btnCircle.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shapeType = "Circle";
-			}
-		});
-		btnCircle.setBounds(114, 10, 98, 30);
-		btnCircle.setText("Circle");
-		
-		Button btnRoundRect = new Button(shell, SWT.NONE);
-		btnRoundRect.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				shapeType = "RoundRect";
-			}
-		});
-		btnRoundRect.setBounds(218, 10, 98, 30);
-		btnRoundRect.setText("RoundRect");
+//		Button btnRect = new Button(shell, SWT.NONE);
+//		btnRect.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				shapeType = "Rect";
+//			}
+//		});
+//		btnRect.setBounds(10, 10, 98, 30);
+//		btnRect.setText("Rect");
+//
+//		Button btnCircle = new Button(shell, SWT.NONE);
+//		btnCircle.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				shapeType = "Circle";
+//			}
+//		});
+//		btnCircle.setBounds(114, 10, 98, 30);
+//		btnCircle.setText("Circle");
+//
+//		Button btnRoundRect = new Button(shell, SWT.NONE);
+//		btnRoundRect.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				shapeType = "RoundRect";
+//			}
+//		});
+//		btnRoundRect.setBounds(218, 10, 98, 30);
+//		btnRoundRect.setText("RoundRect");
 
 		
 		shell.open();
