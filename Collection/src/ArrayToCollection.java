@@ -2,6 +2,10 @@ import java.util.*;
 
 public class ArrayToCollection{
     public static void main(String[] args){
+
+        // 数组拷贝
+        // System.arraycopy(str, 0, str2, 0, 3);
+
         // Integer Double 等包装类使用intValue() doubleValue()来获得值
         // Java拥有自动装箱自动拆箱机制，自动拆箱：int m = list.get(k) // 返回Integer对象
         // 自动转换为基本对象类型

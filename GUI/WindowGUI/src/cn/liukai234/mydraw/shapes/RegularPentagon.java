@@ -21,7 +21,16 @@ public class RegularPentagon implements Shape {
 
     @Override
     public void draw() {
-        gcMain.drawRectangle(top,left,width,height);
+        // DrawLine
+//        gcMain.drawRectangle(top,left,width,height);
+        // gcMain.drawLine();
+//        int Ax, Ay, Bx, By, Cx, Cy, Dx, Dy, Ex, Ey;
+//        Ax = left + width / 2; Ay = top;
+//        Bx =
+//        int[] PointArray = {};
+//         gcMain.drawPolygon(PointArray);
+//         gcMain.drawLine();
+        // gcMain.drawPolyline();
     }
 
     public void setTop(int top) { this.top = top; }

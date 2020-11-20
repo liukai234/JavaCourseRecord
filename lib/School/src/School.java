@@ -9,6 +9,7 @@ public class School{
 //        Class.MemberOperation class1memberOperation = class1.new MemberOperation();
 
         MemberOperation.addMember(new Teacher("class1's Teacher1"), clazz1);
+        // MemberOperation.updateIndex();
         MemberOperation.addMember(new Student("class1's Student1"), clazz1);
         MemberOperation.addMember(new Student("class1's Student2"), clazz1);
         MemberOperation.addMember(new Course("class1's Course1"), clazz1);

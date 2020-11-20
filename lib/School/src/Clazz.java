@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.LinkedList;
 
 class Clazz {
@@ -12,6 +13,12 @@ class Clazz {
     private LinkedList<Course> courses = new LinkedList<>();
     private LinkedList<GrandStudent> grandStudents = new LinkedList<>();
 
+
+
+
+
+
+
     public LinkedList<Member> getMembers(Member m) throws NullPointerException{
         LinkedList<Member> ret = null;
         String mName = m.getClass().getName();
@@ -20,6 +27,7 @@ class Clazz {
         else if(mName == "Course") ret = (LinkedList)courses;
         else if(mName == "GrandStudent") ret = (LinkedList)grandStudents;
         if(ret == null) throw new NullPointerException("Member Type not exist");
+
         return ret;
     }
 
