@@ -98,7 +98,7 @@ public class Main {
 					// Draw
 					gcMain.setForeground(display.getSystemColor(SWT.COLOR_BLUE));
 					gcMain.drawRectangle(startX, startY, arg0.x-startX,arg0.y-startY);
-					
+
 					gcMain.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
 					gcMain.setLineStyle(SWT.LINE_SOLID);
 					board.refresh();
@@ -114,6 +114,7 @@ public class Main {
 			public void mouseDown(MouseEvent e) {
 				startX = e.x;
 				startY = e.y;
+				System.out.println("Main: " + startX + " " + startY);
 				leftButtonDown = true;
 				shell.setCursor(new Cursor(null, SWT.CURSOR_CROSS));
 			}

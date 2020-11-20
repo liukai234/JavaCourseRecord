@@ -78,7 +78,6 @@ class MemberOperation  {
 
             // 使用索引代替迭代器
             if(hm.containsKey(m.getName())) { temp =  hm.get(m.getName()); }
-
         } catch (NullPointerException e) {
             System.out.println(e.getMessage());
         }
@@ -89,9 +88,7 @@ class MemberOperation  {
         System.out.println("print ALL Member: class" + c.getThisClazz());
         String[] allTypeMem = {"Teacher", "Student", "Course", "GrandStudent"};
         try{
-
             for (String str : allTypeMem) {
-
                 System.out.println(str + ": " + c.getMembers(str).size());
                 Iterator<Member> iter = c.getMembers(str).iterator();
                 while (iter.hasNext()) {
