@@ -46,9 +46,9 @@ class MousePolice implements MouseMotionListener, MouseListener{
         int minX = Math.min(startX, e.getX());
         int minY = Math.min(startY, e.getY());
         Shape shape = switch (shapeType) {
-            case "Rect" -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
-            case "Circle" -> new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
-            default -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+            case "Rect" -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
+            case "Circle" -> new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
+            default -> new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
         };
 
         // 从board这个显示且添加到主面板中的组件中获取graphics
@@ -81,30 +81,30 @@ class MousePolice implements MouseMotionListener, MouseListener{
 
         switch (shapeType) {
             case "Rect" -> {
-                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight, g);
+                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight);
                 g.setColor(board.getBackground());
                 shapeErase.Draw();
                 board.reFresh();
-                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
                 g.setColor(Color.blue);
                 shape.Draw();
             }
             case "Circle" -> {
-                shapeErase = new Circle(lastX, lastY, lastWidth, lastHeight, g);
+                shapeErase = new Circle(lastX, lastY, lastWidth, lastHeight);
                 g.setColor(board.getBackground());
                 shapeErase.Draw();
                 board.reFresh();
                 board.repaint();
-                shape = new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                shape = new Circle(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
                 g.setColor(Color.blue);
                 shape.Draw();
             }
             default -> {
-                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight, g);
+                shapeErase = new Rect(lastX, lastY, lastWidth, lastHeight);
                 g.setColor(board.getBackground());
                 shapeErase.Draw();
                 board.reFresh();
-                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY), g);
+                shape = new Rect(minX, minY, Math.abs(e.getX() - startX), Math.abs(e.getY() - startY));
                 g.setColor(Color.blue);
                 shape.Draw();
             }

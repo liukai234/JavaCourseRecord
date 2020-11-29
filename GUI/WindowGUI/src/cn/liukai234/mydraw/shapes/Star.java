@@ -1,4 +1,6 @@
 package cn.liukai234.mydraw.shapes;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 
 public class Star implements Shape {
@@ -19,8 +21,26 @@ public class Star implements Shape {
         this.gcMain=gc;
     }
 
+	private Color paintColor = null;
+	public void setPaintColor(Color paintColor) {
+		this.paintColor = paintColor;
+	}
+    
+	private int lineStyle = SWT.LINE_SOLID;
+	public void setLineStyle(int lineStyle) {
+		this.lineStyle = lineStyle;
+	}
+
+	private int lineWidth = 1;
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+	
     @Override
     public void draw() {
+    	gcMain.setLineStyle(lineStyle);
+		gcMain.setLineWidth(lineWidth);
+		gcMain.setForeground(paintColor);
         int Ax, Ay, Bx, By, Cx, Cy, Dx, Dy, Ex, Ey;
         Ax = top + width / 2; Ay = left;
         Bx = top; By = (int)(Math.tan(Math.toRadians(36.0)) * 0.5 * width + left);
@@ -32,6 +52,12 @@ public class Star implements Shape {
         gcMain.drawPolygon(PointArray);
     }
 
+	String str = null;
+	public String getString() {
+		str = getClass().getName() + " " + top + " " + left + " " + width + " " + height + " " + paintColor.toString() + " " + lineStyle + " " + lineWidth + " ";
+		return str;
+	}
+    
     public void setTop(int top) { this.top = top; }
     public void setLeft(int left) { this.left = left; }
     public void setWidth(int width) { this.width = width; }

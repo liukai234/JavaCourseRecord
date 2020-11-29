@@ -14,7 +14,5 @@ public class modifyDate {
         System.out.println(filetime.toString());
         fileToChange.renameTo(new File("/home/liukai/Desktop/testJar"));
         System.out.println(fileToChange.getName());
-
-
     }
 }

@@ -1,4 +1,6 @@
 package cn.liukai234.mydraw.shapes;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 
 public class RoundRect implements Shape{
@@ -23,9 +25,34 @@ public class RoundRect implements Shape{
 		this.gcMain=gc;
 	}
 	
+	private Color paintColor = null;
+	public void setPaintColor(Color paintColor) {
+		this.paintColor = paintColor;
+	}
+	
+	
+	private int lineStyle = SWT.LINE_SOLID;
+	public void setLineStyle(int lineStyle) {
+		this.lineStyle = lineStyle;
+	}
+
+	private int lineWidth = 1;
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+	
 	@Override
 	public void draw() {
+		gcMain.setLineStyle(lineStyle);
+		gcMain.setLineWidth(lineWidth);
+		gcMain.setForeground(paintColor);
 		gcMain.drawRoundRectangle(top, left, width, height, arcWidth, arcHeight);
+	}
+	
+	String str = null;
+	public String getString() {
+		str = getClass().getName() + " " + top + " " + left + " " + width + " " + height + " " + paintColor.toString() + " " + lineStyle + " " + lineWidth + " ";
+		return str;
 	}
 	
 	public void setTop(int top) { this.top = top; }

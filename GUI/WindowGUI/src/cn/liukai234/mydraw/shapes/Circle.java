@@ -1,4 +1,6 @@
 package cn.liukai234.mydraw.shapes;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 
 public class Circle implements Shape{
@@ -19,11 +21,35 @@ public class Circle implements Shape{
 		this.gcMain=gc;
 	}
 	
+	private Color paintColor = null;
+	public void setPaintColor(Color paintColor) {
+		this.paintColor = paintColor;
+	}
+	
+	private int lineStyle = SWT.LINE_SOLID;
+	public void setLineStyle(int lineStyle) {
+		this.lineStyle = lineStyle;
+	}
+
+	private int lineWidth = 1;
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;
+	}
+	
 	@Override
 	public void draw() {
+		gcMain.setLineStyle(lineStyle);
+		gcMain.setLineWidth(lineWidth);
+		gcMain.setForeground(paintColor);
 		gcMain.drawOval(top,left,width,height);
 	}
 
+	String str = null;
+	public String getString() {
+		str = top + " " + left + " " + width + " " + height + " " + paintColor + " " + lineStyle + " " + lineWidth + " ";
+		return str;
+	}
+	
 	public void setTop(int top) { this.top = top; }
 	public void setLeft(int left) { this.left = left; }
 	public void setWidth(int width) { this.width = width; }

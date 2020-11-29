@@ -1,25 +1,27 @@
+import javax.swing.*;
 import java.awt.*;
 
-public class Rect implements Shape {
+public class Rect extends JPanel implements Shape {
     private final int x;
     private final int y;
     private final int width;
     private final int height;
-    Graphics g;
-    public Rect(int x, int y, int width, int height, Graphics g) {
+//    Graphics g;
+    public Rect(int x, int y, int width, int height) { // , Graphics g
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.g = g;
+//        this.g = g;
     }
 
     public void Draw() {
-        g.drawRect(x, y, width, height);
+        repaint();
     }
 
     @Override
-    public void Draw(Graphics g) {
+    public void paint(Graphics g) {
+        super.paint(g);
         g.drawRect(x, y, width, height);
     }
 }

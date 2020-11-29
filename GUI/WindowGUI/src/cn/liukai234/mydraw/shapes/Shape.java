@@ -1,4 +1,5 @@
 package cn.liukai234.mydraw.shapes;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 
 public interface Shape {
@@ -8,4 +9,9 @@ public interface Shape {
 	void setHeight(int height);
 	void setGC(GC gcMain);
 	void draw();
+	void setPaintColor(Color paintColor);
+	void setLineStyle(int lineStyle);
+	void setLineWidth(int lineWidth);
+	
+	public String getString();
 }

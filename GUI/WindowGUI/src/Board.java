@@ -18,4 +18,12 @@ public class Board {
 			shape.draw();
 		}
 	}
+	
+	public String getSaveStream() {
+		String string = "";
+		for(Shape shape:shapes) {
+			string += shape.getString();
+		}
+		return string;
+	}
 }

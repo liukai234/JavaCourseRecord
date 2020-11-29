@@ -16,7 +16,7 @@ public class Board extends JPanel {
     @Override
     public void paint(Graphics g) {
         for(int i = 0; i < index; i++) {
-            shapes[i].Draw(g);
+            shapes[i].Draw();
         }
     }
 
