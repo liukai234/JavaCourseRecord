@@ -25,8 +25,6 @@ public class fileNameFilter {
             System.out.println(str);
         }
     }
-
-
 }
 
 // Filter // 使用匿名类 Batter

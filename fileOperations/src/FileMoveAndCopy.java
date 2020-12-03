@@ -2,29 +2,31 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 public class FileMoveAndCopy {
+    private File src;
+    private File tar;
+
     public static void main(String[] args) throws IOException {
-        FileMoveAndCopy fileOper = new FileMoveAndCopy();
-        fileOper.move("text3.txt", "text4.txt");
+        File file1 = new File("text1.txt");
+        File file2 = new File("text2.txt");
+        FileMoveAndCopy fileOper = new FileMoveAndCopy(file1, file2);
+        fileOper.copy();
     }
 
-    public void move(String src, String dis) throws IOException{
-        File fileSrc = new File(src);
-        copy(src, dis);
-        fileSrc.delete();
+    public FileMoveAndCopy(File src, File tar) {
+        this.src = src;
+        this.tar = tar;
     }
 
-    public void copy(String src, String dis) throws IOException {
+    private boolean isSameFolder() {
         boolean isSameFolder = false;
-        File fileSrc = new File(src);
-        File fileDis = new File(dis);
 
-        if(fileSrc.isDirectory() || fileDis.isDirectory()) {
+        if(src.isDirectory() || tar.isDirectory()) {
             System.out.println("is Folder");
-            return;
+            return false;
         }
 
-        String srcAbsolutePath = fileSrc.getAbsolutePath();
-        String disAbsolutePath = fileDis.getAbsolutePath();
+        String srcAbsolutePath = src.getAbsolutePath();
+        String disAbsolutePath = tar.getAbsolutePath();
 
         StringTokenizer srcSt = new StringTokenizer(srcAbsolutePath, ":\\", false);
         StringTokenizer disSt = new StringTokenizer(disAbsolutePath, ":\\", false);
@@ -44,17 +46,29 @@ public class FileMoveAndCopy {
                 }
             }
         }
+        return isSameFolder;
+    }
 
-         if(isSameFolder) {
-             fileSrc.renameTo(fileDis);
-         }
-         else {
-             DataInputStream in = new DataInputStream(new FileInputStream(fileSrc));
-             DataOutputStream out = new DataOutputStream(new FileOutputStream(fileDis));
+    public void move(){
+        if(isSameFolder()) {
+            src.renameTo(tar);
+        }else {
+            copy();
+        }
+        src.delete();
+    }
 
-             out.writeUTF(in.readUTF());
-
-         }
+    public void copy(){
+        DataInputStream in = null;
+        try {
+            in = new DataInputStream(new FileInputStream(src));
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(tar));
+            out.write(in.readAllBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
